@@ -39,24 +39,26 @@ const db = getFirestore(app);
 async function seed() {
   console.log('🌱 Seeding Firestore...');
 
-  const hubId = 'central_park';
+    // Inside seed() function in scripts/seedFirestore.js
+  const hubId = 'usf_varsity_courts'; // Unique ID for the hub
   await setDoc(doc(db, 'hubs', hubId), {
-    name: 'Central Park Tennis Center',
-    total_courts: 4,
-    hub_lat: 40.7128,
-    hub_lng: -74.006,
-    radius_meters: 50,
+    name: 'USF Varsity Tennis Courts',
+    total_courts: 12,           // Updated number of courts
+    hub_lat: 28.0625,           // Latitude near USF
+    hub_lng: -82.4130,          // Longitude near USF
+    radius_meters: 100,         // Geofencing radius
   });
   console.log('✅ Created hub:', hubId);
 
-  for (let i = 1; i <= 4; i++) {
-    const courtId = `court_${i}`;
-    await setDoc(doc(db, 'hubs', hubId, 'courts', courtId), {
-      status: 'open',
-      current_player_uid: null,
-    });
-    console.log(`  ✅ Created court: ${courtId}`);
-  }
+// Update the loop to create 12 courts instead of 4
+for (let i = 1; i <= 12; i++) {
+  const courtId = `court_${i}`;
+  await setDoc(doc(db, 'hubs', hubId, 'courts', courtId), {
+    status: 'open',
+    current_player_uid: null,
+  });
+  console.log(`  ✅ Created court: ${courtId}`);
+}
 
   console.log('\n🎾 Firestore seeded successfully!');
   process.exit(0);
